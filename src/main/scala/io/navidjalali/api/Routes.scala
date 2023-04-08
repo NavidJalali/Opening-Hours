@@ -14,6 +14,13 @@ import zio.stream.{ZSink, ZStream}
 import zio.{Task, ZLayer}
 
 final class Routes:
+  private val healthCheck: ZServerEndpoint[Any, ZioStreams] =
+    endpoint.get
+      .in("health")
+      .out(stringBody)
+      .description("Health check endpoint")
+      .serverLogicPure(_ => Right("OK"))
+
   private val openingHours: ZServerEndpoint[Any, ZioStreams] =
     endpoint.post
       .in("opening-hours")
@@ -22,7 +29,7 @@ final class Routes:
       .description("Get opening hours in human readable format")
       .serverLogicPure(openingHours => Right(openingHours.toHumanReadable))
 
-  val all = List(openingHours)
+  val all = List(healthCheck, openingHours)
 
   val routes: HttpRoutes[Task] =
     ZHttp4sServerInterpreter[Any]().from(all).toRoutes

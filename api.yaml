@@ -3,6 +3,17 @@ info:
   title: Wolt Home Assignment
   version: 0.0.1
 paths:
+  /health:
+    get:
+      description: Health check endpoint
+      operationId: getHealth
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            text/plain:
+              schema:
+                type: string
   /opening-hours:
     post:
       description: Get opening hours in human readable format
@@ -15,7 +26,7 @@ paths:
         required: true
       responses:
         '200':
-          description: 'okay'
+          description: 'OK'
           content:
             text/plain:
               schema:
