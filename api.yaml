@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Wolt Home Assignment
+  version: 0.0.1
+paths:
+  /opening-hours:
+    post:
+      description: Get opening hours in human readable format
+      operationId: postOpening-hours
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Map_WeekDay_Seq_TimeEntry'
+        required: true
+      responses:
+        '200':
+          description: 'okay'
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    Map_WeekDay_Seq_TimeEntry:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/TimeEntry'
+    TimeEntry:
+      required:
+      - type
+      - value
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: integer
+          format: int32
